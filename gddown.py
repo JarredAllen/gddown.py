@@ -5,7 +5,8 @@ import os, os.path
 from pathlib import PurePath
 from subprocess import Popen, PIPE
 
-def download(path, root=None):
+def download(path, root=None, skip=True):
+    skip = '-s' if skip else '-f'
     print(path, path.parts)
     base = path.parts[0]
     print(f'At {base} from {root}...', end=' ')
@@ -21,7 +22,7 @@ def download(path, root=None):
     query = ' and '.join(query)
     if len(path.parts) == 1:
         print('Downloading...')
-        process = Popen(f'gdrive download query " {query} "', shell=True)
+        process = Popen(f'gdrive download {skip} query " {query} "', shell=True)
         process.wait()
     else:
         print('Recursing...')
